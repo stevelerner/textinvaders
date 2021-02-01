@@ -1,11 +1,30 @@
 import os, time
 grid=[]
-#grid=[[x] * 10 for x in range(0,10)]
 grid=[[' '] * 10 for x in range(0,10)]
-#print(grid)
+#grid=[[x] * 10 for x in range(0,10)]
 
-#for y in range(10):
-#   grid[y][10]="\n"
+alienflip=0
+alienY=0
+alienX=3
+missileX=3
+
+def printgrid():
+    for y in range(0,9):
+        for x in range(0,9):
+            print(grid[y][x],end='')
+#       print('\r')
+
+def alienflipper():
+        if alienflip==0:
+            grid[alienY][alienX]='A'
+            alienflip=1
+        else:
+            grid[alienY][alienX]='V'
+            alienflip=0
+
+def clearscreen(sleeptime):
+    time.sleep(sleeptime)
+    os.system('tput reset')
 
 def printgrid():
     for y in range(10):
@@ -13,15 +32,16 @@ def printgrid():
             print(grid[y][x],end='')
         print('\r')
 
-
-os.system('tput reset')
-time.sleep(.500)
-#for y in range(0,10):
-for y in range(9,0,-1):
-        tmp=(grid[y][3])
-        grid[y][3]='^'
+def mainroutine():
+    for m in range(9,-1,-1):
+        grid[m][3]='^'
         printgrid()
-        grid[y][3]=tmp
-#       print(y)
-        time.sleep(.250)
-        os.system('tput reset')
+#       print('\r',m)
+#       input(" Press Enter to continue...")
+        if m > 0:
+                clearscreen(.250)
+        grid[m][3]=' '
+#       print('\r')
+
+clearscreen(0)
+mainroutine()
