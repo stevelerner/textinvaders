@@ -37,3 +37,23 @@ def printcolor(color):
         return('\033[4;37;48m')
     elif color == 'END':
         return('\033[1;37;0m')
+
+import GetInput
+import signal
+
+getch = GetInput._getChUnix()
+
+def alarmhandler(signum, frame):
+    raise TypeError
+
+def getinp(timeout=0.5):
+    signal.signal(signal.SIGALRM, alarmhandler)
+    signal.setitimer(signal.ITIMER_REAL, timeout)
+    try:
+        ch = getch()
+        signal.alarm(0)
+        return ch
+    except TypeError:
+        pass
+    signal.signal(signal.SIGALRM, signal.SIG_IGN)
+    return ''
