@@ -1,4 +1,4 @@
-from classes import printcolor
+from classes import printcolor, colortable
 from classes import clearscreen
 
 grid=[]
@@ -6,7 +6,7 @@ grid=[[' '] * 10 for x in range(0,10)]
 #grid=[[x] * 10 for x in range(0,10)]
 
 gridcolor=[]
-gridcolor=[[' '] * 10 for x in range(0,10)]
+gridcolor=[['END'] * 10 for x in range(0,10)]
 
 alienflip=0
 alienY=0
@@ -24,7 +24,7 @@ def alienflipper():
 def printgrid():
     for y in range(10):
         for x in range(10):
-          print(printcolor(gridcolor[y][x]), grid[y][x], printcolor('END'), end='')
+            print(printcolor(gridcolor[y][x]), grid[y][x], colortable.END, end='')
         print('\r')
 
 def mainroutine():
@@ -33,8 +33,9 @@ def mainroutine():
         gridcolor[m][3]='RED'
         printgrid()
         if m > 0:
-            clearscreen(.250)
+            clearscreen(.100)
         grid[m][3]=' '
+        gridcolor[m][3]='END'
 
 clearscreen(0)
 mainroutine()
