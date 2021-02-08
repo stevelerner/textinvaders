@@ -1,7 +1,7 @@
 from classes import printcolor, colortable, getinp
 from classes import clearscreen
+import os, sys
 
-inp = 0
 grid=[]
 grid=[[' '] * 10 for x in range(0,10)]
 #grid=[[x] * 10 for x in range(0,10)]
@@ -30,19 +30,36 @@ def printgrid():
         print('\r')
 
 def mainroutine():
+    shipx = 4
+    if shipx==4:
+        shipxlocal = shipx
+    shipx = 0
     for m in range(9,-1,-1):
-        grid[m][3]=('^')
-        gridcolor[m][3]='RED'
-        printgrid()
-        if m > 0:
-            clearscreen(.150)
-        grid[m][3]=' '
-        gridcolor[m][3]='END'
+#       grid[m][3]=('^')
+#       gridcolor[m][3]='RED'
+#       grid[m][3]=' '
+#       gridcolor[m][3]='END'
         inp = getinp()
-        if inp == 'q':
-            exit()
-        else:
-            pass
+        if inp:
+            if inp == 'q':
+                exit()
+            elif inp == 'a':
+                shipxlocal = shipxlocal - 1
+                if shipxlocal <= 0:
+                    shipxlocal = 0
+            elif inp == 'd':
+                shipxlocal = shipxlocal + 1
+                if shipxlocal >= 9:
+                    shipxlocal = 9
+            else:
+                pass
+            grid[9][shipxlocal]='T'
+            printgrid()
+            if m > 0:
+                os.system('tput reset') 
+            grid[9][shipxlocal]=' '
+
+inp = 0
 
 # Main Loop
 
