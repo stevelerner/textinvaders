@@ -2,7 +2,6 @@ from classes import printcolor, colortable, getinp
 from classes import clearscreen
 import os, sys
 
-inp = 0
 grid=[]
 grid=[[' '] * 10 for x in range(0,10)]
 #grid=[[x] * 10 for x in range(0,10)]
@@ -24,44 +23,42 @@ def alienflipper():
         alienflip=0
 
 def printgrid():
-#   print('----------')
+    os.system('tput reset') 
+    print('0 1 2 3 4 5 6 7 8 9\r')
     for y in range(10):
         for x in range(10):
             print(printcolor(gridcolor[y][x]), grid[y][x], colortable.END, end='')
         print('\r')
+    print('0 1 2 3 4 5 6 7 8 9\r')
 
-def mainroutine():
- #   shipx = 4
- #   if shipx==4:
- #       shipxlocal = shipx
- #   shipx = 0
-    for m in range(9,-1,-1):
+# main routine
+
+os.system('tput reset') 
+printgrid()
+shipx = 4
+inp = 0
+while True:
+#   for m in range(9,-1,-1):
         inp = getinp()
         if inp:
             if inp == 'q':
                 exit()
- #           elif inp == 'a':
- #               shipxlocal = shipxlocal - 1
- #               if shipxlocal <= 0:
- #                   shipxlocal = 0
- #           elif inp == 'd':
- #               shipxlocal = shipxlocal + 1
- #               if shipxlocal >= 9:
- #                   shipxlocal = 9
+            elif inp == 'a':
+                shipx = shipx - 1
+                if shipx <= 0:
+                    shipx = 0
+            elif inp == 'd':
+                shipx = shipx + 1
+                if shipx >= 9:
+                    shipx = 9
             else:
                 pass
- #           grid[9][shipxlocal]='T'
- #           grid[9][shipxlocal]=' '
- 
-        grid[m][3]=('^')
-        gridcolor[m][3]='RED'
-        printgrid()
-        if m > 0:
-            os.system('tput reset') 
-        grid[m][3]=' '
-        gridcolor[m][3]='END'
-
-# Main Loop
-
-while True:
-    mainroutine()
+            grid[9][shipx]='T'
+            printgrid()
+            grid[9][shipx]=' '
+#       grid[m][3]=('^')
+#       gridcolor[m][3]='RED'
+#       if m > 0:
+#           os.system('tput reset') 
+#       grid[m][3]=' '
+#       gridcolor[m][3]='END'
