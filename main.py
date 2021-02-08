@@ -1,13 +1,9 @@
-from classes import printcolor, colortable, getinp
-from classes import clearscreen
+from classes import getinp
 import os, sys
 
 grid=[]
 grid=[[' '] * 10 for x in range(0,10)]
 #grid=[[x] * 10 for x in range(0,10)]
-
-gridcolor=[]
-gridcolor=[['END'] * 10 for x in range(0,10)]
 
 alienflip=0
 alienY=0
@@ -23,26 +19,28 @@ def alienflipper():
         alienflip=0
 
 def printgrid():
-#   print('0 1 2 3 4 5 6 7 8 9\r')
+    os.system('tput reset')
+    print('------------')
     for y in range(10):
-        print(grid[y][0], end='')
+        print('|', end='')
         for x in range(10):
-#           print(printcolor(gridcolor[y][x]), grid[y][x], colortable.END, end='')
             print(grid[y][x], end='')
+        print('|', end='')
         print('\r')
-#   print('0 1 2 3 4 5 6 7 8 9\r')
+    print('------------')
 
 # main routine
 
 os.system('tput reset')
 printgrid()
+
 shipx = 4
 inp = 0
 while True:
-    for m in range(9,-1,-1):
-        inp = getinp(timeout=0.5)
+#   for m in range(9,-1,-1):
+#       inp = getinp(timeout=0.5)
+        inp = getinp()
         if inp:
-            os.system('tput reset')
             if inp == 'q':
                 exit()
             elif inp == 'a':
@@ -55,9 +53,8 @@ while True:
                     shipx = 9
             else:
                 pass
-            grid[8][shipx]='T'
-            grid[8][shipx]=' '
-        grid[m][3]=('^')
-        gridcolor[m][3]='RED'
-        printgrid()
-        grid[m][3]=' '
+            grid[9][shipx]='T'
+            printgrid()
+            grid[9][shipx]=' '
+#           grid[m][3]=('^')
+#       grid[m][3]=' '
