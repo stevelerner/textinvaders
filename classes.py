@@ -46,7 +46,7 @@ getch = GetInput._getChUnix()
 def alarmhandler(signum, frame):
     raise TypeError
 
-def getinp(timeout=0.5):
+def getinp(timeout=0.05):
     signal.signal(signal.SIGALRM, alarmhandler)
     signal.setitimer(signal.ITIMER_REAL, timeout)
     try:
