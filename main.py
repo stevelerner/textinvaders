@@ -1,14 +1,14 @@
 from classes import getinp
-import os, sys, time
+import os, sys, time, random
 
 grid=[]
 grid=[[' '] * 10 for x in range(0,10)]
 #grid=[[x] * 10 for x in range(0,10)]
 
-alienflip=0
-alienY=3
-alienX=3
+alienY= random.randint(0,7)
+alienX= random.randint(0,9)
 
+score = 0
 
 def printgrid():
     os.system('tput reset')
@@ -21,6 +21,7 @@ def printgrid():
         print('\r')
     print('------------')
     print('a/d=move s=fire qq=quit\r')
+    print('score = ', score, '\r')
 
 # main routine
 
@@ -32,21 +33,20 @@ missileX = 0
 missileY = 8
 missile = 0
 
+grid[alienY][alienX] = 'A'
 grid[9][shipX]='T'
 printgrid()
 grid[9][shipX]=' '
 
 while True:
 
+
     if alienY != 9:
-        if alienflip==0:
-            grid[alienY][alienX] = 'A'
-            alienflip=1
-        else:
-            grid[alienY][alienX] = 'V'
-            alienflip=0
+        grid[alienY][alienX] = 'A'
     else:
         grid[alienY][alienX] = ' '
+        alienY= random.randint(0,7)
+        alienX= random.randint(0,9)
 
     inp = getinp()
     if inp == 'q':
@@ -80,10 +80,14 @@ while True:
             if (missileY == alienY) and (missileX == alienX):
                 missileY = 8
                 missile = 0
-                alienY = 9 
+                grid[alienY][alienX] = ' '
                 grid[missileY][missileX] = ' '
+                alienY= random.randint(0,7)
+                alienX= random.randint(0,9)
+                grid[alienY][alienX] = 'A'
+                score=score+1
+                grid[9][shipX]='T'
                 printgrid()
-                time.sleep(.100)
         else:
             missileY = 8
             missile = 0
