@@ -6,16 +6,9 @@ grid=[[' '] * 10 for x in range(0,10)]
 #grid=[[x] * 10 for x in range(0,10)]
 
 alienflip=0
-alienY=0
+alienY=3
 alienX=3
 
-def alienflipper():
-    if alienflip==0:
-        grid[alienY][alienX]='A'
-        alienflip=1
-    else:
-        grid[alienY][alienX]='V'
-        alienflip=0
 
 def printgrid():
     os.system('tput reset')
@@ -27,7 +20,7 @@ def printgrid():
         print('|', end='')
         print('\r')
     print('------------')
-    print('a/d=move s=fire q=quit\r')
+    print('a/d=move s=fire qq=quit\r')
 
 # main routine
 
@@ -44,8 +37,17 @@ printgrid()
 grid[9][shipX]=' '
 
 while True:
-#   for m in range(9,-1,-1):
-#       inp = getinp(timeout=0.5)
+
+    if alienY != 9:
+        if alienflip==0:
+            grid[alienY][alienX] = 'A'
+            alienflip=1
+        else:
+            grid[alienY][alienX] = 'V'
+            alienflip=0
+    else:
+        grid[alienY][alienX] = ' '
+
     inp = getinp()
     if inp == 'q':
         exit()
@@ -74,7 +76,14 @@ while True:
             printgrid()
             grid[missileY][missileX] = ' '
             missileY = missileY - 1
-            time.sleep(.150)
+            time.sleep(.100)
+            if (missileY == alienY) and (missileX == alienX):
+                missileY = 8
+                missile = 0
+                alienY = 9 
+                grid[missileY][missileX] = ' '
+                printgrid()
+                time.sleep(.100)
         else:
             missileY = 8
             missile = 0
