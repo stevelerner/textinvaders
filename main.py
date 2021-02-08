@@ -23,7 +23,6 @@ def alienflipper():
         alienflip=0
 
 def printgrid():
-    os.system('tput reset') 
     print('0 1 2 3 4 5 6 7 8 9\r')
     for y in range(10):
         for x in range(10):
@@ -38,9 +37,10 @@ printgrid()
 shipx = 4
 inp = 0
 while True:
-#   for m in range(9,-1,-1):
-        inp = getinp()
+    for m in range(9,-1,-1):
+        inp = getinp(timeout=0.5)
         if inp:
+            os.system('tput reset') 
             if inp == 'q':
                 exit()
             elif inp == 'a':
@@ -56,9 +56,7 @@ while True:
             grid[9][shipx]='T'
             printgrid()
             grid[9][shipx]=' '
-#       grid[m][3]=('^')
-#       gridcolor[m][3]='RED'
-#       if m > 0:
-#           os.system('tput reset') 
-#       grid[m][3]=' '
-#       gridcolor[m][3]='END'
+        grid[m][3]=('^')
+        gridcolor[m][3]='RED'
+        printgrid()
+        grid[m][3]=' '
