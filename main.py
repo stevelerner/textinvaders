@@ -1,5 +1,5 @@
-from classes import getinp
-import os, sys, time, random
+from classes import getinp, colortable
+import os, sys, random, time
 
 grid=[]
 grid=[[' '] * 10 for x in range(0,10)]
@@ -7,11 +7,14 @@ grid=[[' '] * 10 for x in range(0,10)]
 
 alienY= random.randint(0,7)
 alienX= random.randint(0,9)
+alienstarttime = time.time()
+alienendtime = time.time()
 
 score = 0
 
 def printgrid():
     os.system('tput reset')
+    print('Trace Invaders\r')
     print('------------')
     for y in range(10):
         print('|', end='')
@@ -20,13 +23,15 @@ def printgrid():
         print('|', end='')
         print('\r')
     print('------------')
-    print('a/d=move s=fire qq=quit\r')
+    print('a/d=move s=fire q=quit\r')
     print('score = ', score, '\r')
+    print('time = ', int(alienendtime-alienstarttime), '\r')
 
 # main routine
 
 os.system('tput reset')
 
+#initialize variables
 shipX = 4
 inp = 0
 missileX = 0
@@ -38,15 +43,21 @@ grid[9][shipX]='T'
 printgrid()
 grid[9][shipX]=' '
 
+#main routine
 while True:
-
-
     if alienY != 9:
         grid[alienY][alienX] = 'A'
+        alienendtime = time.time()
+        if (alienendtime-alienstarttime>5):
+            grid[alienY][alienX] = ' '
+            alienY= random.randint(0,7)
+            alienX= random.randint(0,9)
+            alienstarttime = time.time()
     else:
         grid[alienY][alienX] = ' '
         alienY= random.randint(0,7)
         alienX= random.randint(0,9)
+        alienstarttime = time.time()
 
     inp = getinp()
     if inp == 'q':
