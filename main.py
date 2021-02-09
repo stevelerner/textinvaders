@@ -7,8 +7,8 @@ grid=[[' '] * 10 for x in range(0,10)]
 
 alienY= random.randint(0,7)
 alienX= random.randint(0,9)
-alienstarttime = time.time()
-alienendtime = time.time()
+alienlife=3
+alienendtime = time.time() + alienlife
 
 score = 0
 
@@ -25,7 +25,7 @@ def printgrid():
     print('------------')
     print('a/d=move s=fire q=quit\r')
     print('score = ', score, '\r')
-    print('time = ', int(alienendtime-alienstarttime), '\r')
+    print('time = ', abs(int(alienendtime-time.time())), '\r')
 
 # main routine
 
@@ -45,20 +45,15 @@ grid[9][shipX]=' '
 
 #main routine
 while True:
-    if alienY != 9:
-        grid[alienY][alienX] = 'A'
-        alienendtime = time.time()
-        if (alienendtime-alienstarttime>5):
-            grid[alienY][alienX] = ' '
-            alienY= random.randint(0,7)
-            alienX= random.randint(0,9)
-            alienstarttime = time.time()
-    else:
+    if (alienY == 9) or (time.time() > alienendtime):
         grid[alienY][alienX] = ' '
+        grid[9][shipX]='T'
+        printgrid()
         alienY= random.randint(0,7)
         alienX= random.randint(0,9)
-        alienstarttime = time.time()
-
+        alienendtime = time.time() + alienlife
+    else:
+        grid[alienY][alienX] = 'A'
     inp = getinp()
     if inp == 'q':
         exit()
@@ -78,8 +73,6 @@ while True:
         missileY = 8
         missile = 1
         missileX = shipX
-    else:
-        pass
     if missile == 1:
         if missileY >= 0:
             grid[missileY][missileX] = '^'
