@@ -27,7 +27,7 @@ def printgrid():
     print('------------')
     print('a/d=move s=fire q=quit\r')
     print('score = ', score, '\r')
-    print('time = ', abs(int(alien1.endtime-time.time())), '\r')
+#   print('time = ', abs(int(alien1.endtime-time.time())), '\r')
 
 #initialize game
 
@@ -39,8 +39,8 @@ grid[9][shipX]=' '
 
 #main routine
 while True:
-    #check if alien life has expired or alien has been shot (alien.y==9) 
-    if (alien1.y == 9) or (time.time() > alien1.endtime):
+    #check if alien life has expired 
+    if time.time() > alien1.endtime:
         grid[alien1.y][alien1.x] = ' '
         alien1=alien(random.randint(0,7), random.randint(0,9), alienlife)
         grid[alien1.y][alien1.x] = 'A'
