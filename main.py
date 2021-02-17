@@ -29,10 +29,9 @@ def printgrid():
     print('score = ', score, '\r')
     print('time = ', abs(int(alien1.endtime-time.time())), '\r')
 
-# main routine
+#initialize game
 
 os.system('tput reset')
-
 grid[alien1.y][alien1.x] = 'A'
 grid[9][shipX]='T'
 printgrid()
@@ -40,11 +39,17 @@ grid[9][shipX]=' '
 
 #main routine
 while True:
+    #check if alien life has expired or alien has been shot (alien.y==9) 
     if (alien1.y == 9) or (time.time() > alien1.endtime):
         grid[alien1.y][alien1.x] = ' '
-        alien1=alien(random.randint(0,7), random.randint(0,9), time.time() + alienlife)
+        alien1=alien(random.randint(0,7), random.randint(0,9), alienlife)
+        grid[alien1.y][alien1.x] = 'A'
+        grid[9][shipX]='T'
+        printgrid()
     else:
         grid[alien1.y][alien1.x] = 'A'
+
+    #check for keyboard input
     inp = getinp()
     if inp == 'q':
         exit()
@@ -57,7 +62,7 @@ while True:
         if shipX >= 9:
             shipX = 9
     elif inp == 's':
-        missile1 = missile(8,shipX,1)
+        missile1 = missile(8, shipX, 1)
 
 # redraw screen if ship is moved
     if inp == 'a' or inp == 'd':
