@@ -64,3 +64,9 @@ class alien:
         self.x = x
         self.life = life
         alien.endtime = time.time() + self.life
+
+class missile:
+    def __init__(self, y, x, fire):
+        self.y = y
+        self.x = x
+        self.fire = fire

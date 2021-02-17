@@ -1,15 +1,18 @@
-from classes import getinp, colortable, alien
+from classes import getinp, colortable, alien, missile
 import os, sys, random, time
 
 grid=[]
 grid=[[' '] * 10 for x in range(0,10)]
 #grid=[[x] * 10 for x in range(0,10)]
 
+#initialize variables
+shipX = 4
+inp = 0
 alienlife = 3
+score = 0
 
 alien1=alien(random.randint(0,7), random.randint(0,9), alienlife)
-
-score = 0
+missile1=missile(0,8,0)
 
 def printgrid():
     os.system('tput reset')
@@ -30,13 +33,6 @@ def printgrid():
 
 os.system('tput reset')
 
-#initialize variables
-shipX = 4
-inp = 0
-missileX = 0
-missileY = 8
-missile = 0
-
 grid[alien1.y][alien1.x] = 'A'
 grid[9][shipX]='T'
 printgrid()
@@ -46,11 +42,7 @@ grid[9][shipX]=' '
 while True:
     if (alien1.y == 9) or (time.time() > alien1.endtime):
         grid[alien1.y][alien1.x] = ' '
-        grid[9][shipX]='T'
-        printgrid()
-        alien1.y= random.randint(0,7)
-        alien1.x= random.randint(0,9)
-        alien1.endtime = time.time() + alienlife
+        alien1=alien(random.randint(0,7), random.randint(0,9), time.time() + alienlife)
     else:
         grid[alien1.y][alien1.x] = 'A'
     inp = getinp()
@@ -60,39 +52,41 @@ while True:
         shipX = shipX - 1
         if shipX <= 0:
             shipX = 0
-        grid[9][shipX]='T'
-        printgrid()
     elif inp == 'd':
         shipX = shipX + 1
         if shipX >= 9:
             shipX = 9
+    elif inp == 's':
+        missile1 = missile(8,shipX,1)
+
+# redraw screen if ship is moved
+    if inp == 'a' or inp == 'd':
         grid[9][shipX]='T'
         printgrid()
-    elif inp == 's':
-        missileY = 8
-        missile = 1
-        missileX = shipX
-    if missile == 1:
-        if missileY >= 0:
-            grid[missileY][missileX] = '^'
+
+# missile is fired 
+    if missile1.fire == 1:
+        if missile1.y >= 0:
+            grid[missile1.y][missile1.x] = '^'
             grid[9][shipX]='T'
             printgrid()
-            grid[missileY][missileX] = ' '
-            missileY = missileY - 1
+            grid[missile1.y][missile1.x] = ' '
+            missile1.y = missile1.y - 1
             time.sleep(.100)
-            if (missileY == alien1.y) and (missileX == alien1.x):
-                missileY = 8
-                missile = 0
+
+# missile intercepts alien
+            if (missile1.y == alien1.y) and (missile1.x == alien1.x):
+                missile1.y = 8
+                missile1.fire = 0
                 grid[alien1.y][alien1.x] = ' '
-                grid[missileY][missileX] = ' '
-                alien1.y= random.randint(0,7)
-                alien1.x= random.randint(0,9)
+                grid[missile1.y][missile1.x] = ' '
+                alien1=alien(random.randint(0,7), random.randint(0,9), alienlife)
                 grid[alien1.y][alien1.x] = 'A'
                 score=score+1
                 grid[9][shipX]='T'
                 printgrid()
         else:
-            missileY = 8
-            missile = 0
+            missile1.y = 8
+            missile1.fire = 0
             printgrid()
     grid[9][shipX]=' '
