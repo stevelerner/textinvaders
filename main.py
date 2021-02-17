@@ -39,9 +39,7 @@ while True:
         alien1=alien(random.randint(0,7), random.randint(0,9), alienlife)
         grid[alien1.y][alien1.x] = 'A'
         printgrid()
-    else:
-        grid[alien1.y][alien1.x] = 'A'
-
+    grid[alien1.y][alien1.x] = 'A'
     #check for keyboard input
     inp = getinp()
     if inp == 'q':
@@ -56,29 +54,28 @@ while True:
             shipX = 9
     elif inp == 's':
         missile1 = missile(8, shipX, 1)
-
     #redraw screen if ship is moved
     if inp == 'a' or inp == 'd':
         printgrid()
-
-# missile is fired 
+    #missile is fired 
     if missile1.fire == 1:
-        if missile1.y >= 0:
+        #missile has not yet hit top of range
+        if missile1.y > -1:
             grid[missile1.y][missile1.x] = '^'
             printgrid()
             grid[missile1.y][missile1.x] = ' '
             missile1.y = missile1.y - 1
-
-# missile intercepts alien
+            # missile intercepts alien
             if (missile1.y == alien1.y) and (missile1.x == alien1.x):
-                missile1.y = 8
-                missile1.fire = 0
                 grid[alien1.y][alien1.x] = ' '
                 grid[missile1.y][missile1.x] = ' '
                 alien1=alien(random.randint(0,7), random.randint(0,9), alienlife)
                 grid[alien1.y][alien1.x] = 'A'
                 score=score+1
+                missile1.y = 8
+                missile1.fire = 0
                 printgrid()
+        #missile missed
         else:
             missile1.y = 8
             missile1.fire = 0
