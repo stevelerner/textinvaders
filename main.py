@@ -10,6 +10,18 @@ alienX= random.randint(0,9)
 alienlife=3
 alienendtime = time.time() + alienlife
 
+class alien:
+    def __init__(self, y, x, life):
+        self.y = y
+        self.x = x
+        self.life = life
+        alien.endtime = time.time() + self.life
+
+    def displayEndtime(self):
+        print("Endtime: ", alien.endtime)
+
+alien1=alien(random.randint(0,7),random.randint(0,9),3)
+
 score = 0
 
 def printgrid():
