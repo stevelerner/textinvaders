@@ -57,3 +57,10 @@ def getinp(timeout=0.05):
         pass
     signal.signal(signal.SIGALRM, signal.SIG_IGN)
     return ''
+
+class alien:
+    def __init__(self, y, x, life):
+        self.y = y
+        self.x = x
+        self.life = life
+        alien.endtime = time.time() + self.life

@@ -1,26 +1,13 @@
-from classes import getinp, colortable
+from classes import getinp, colortable, alien
 import os, sys, random, time
 
 grid=[]
 grid=[[' '] * 10 for x in range(0,10)]
 #grid=[[x] * 10 for x in range(0,10)]
 
-alienY= random.randint(0,7)
-alienX= random.randint(0,9)
-alienlife=3
-alienendtime = time.time() + alienlife
+alienlife = 3
 
-class alien:
-    def __init__(self, y, x, life):
-        self.y = y
-        self.x = x
-        self.life = life
-        alien.endtime = time.time() + self.life
-
-    def displayEndtime(self):
-        print("Endtime: ", alien.endtime)
-
-alien1=alien(random.randint(0,7),random.randint(0,9),3)
+alien1=alien(random.randint(0,7), random.randint(0,9), alienlife)
 
 score = 0
 
@@ -37,7 +24,7 @@ def printgrid():
     print('------------')
     print('a/d=move s=fire q=quit\r')
     print('score = ', score, '\r')
-    print('time = ', abs(int(alienendtime-time.time())), '\r')
+    print('time = ', abs(int(alien1.endtime-time.time())), '\r')
 
 # main routine
 
@@ -50,22 +37,22 @@ missileX = 0
 missileY = 8
 missile = 0
 
-grid[alienY][alienX] = 'A'
+grid[alien1.y][alien1.x] = 'A'
 grid[9][shipX]='T'
 printgrid()
 grid[9][shipX]=' '
 
 #main routine
 while True:
-    if (alienY == 9) or (time.time() > alienendtime):
-        grid[alienY][alienX] = ' '
+    if (alien1.y == 9) or (time.time() > alien1.endtime):
+        grid[alien1.y][alien1.x] = ' '
         grid[9][shipX]='T'
         printgrid()
-        alienY= random.randint(0,7)
-        alienX= random.randint(0,9)
-        alienendtime = time.time() + alienlife
+        alien1.y= random.randint(0,7)
+        alien1.x= random.randint(0,9)
+        alien1.endtime = time.time() + alienlife
     else:
-        grid[alienY][alienX] = 'A'
+        grid[alien1.y][alien1.x] = 'A'
     inp = getinp()
     if inp == 'q':
         exit()
@@ -93,14 +80,14 @@ while True:
             grid[missileY][missileX] = ' '
             missileY = missileY - 1
             time.sleep(.100)
-            if (missileY == alienY) and (missileX == alienX):
+            if (missileY == alien1.y) and (missileX == alien1.x):
                 missileY = 8
                 missile = 0
-                grid[alienY][alienX] = ' '
+                grid[alien1.y][alien1.x] = ' '
                 grid[missileY][missileX] = ' '
-                alienY= random.randint(0,7)
-                alienX= random.randint(0,9)
-                grid[alienY][alienX] = 'A'
+                alien1.y= random.randint(0,7)
+                alien1.x= random.randint(0,9)
+                grid[alien1.y][alien1.x] = 'A'
                 score=score+1
                 grid[9][shipX]='T'
                 printgrid()
