@@ -40,11 +40,11 @@ while True: #main routine
         printgrid()
         if alien.y==9 and alienscore < 3:
             print('Invader Scores!\n')
-            alienscore=alienscore+1
+            alienscore+=1
             grid[alien.y][alien.x] = ' '
             alien=alienClass(random.randint(0,5), random.randint(0,9), alienlife)
             printgrid()
-        elif alien.y==9 and alienscore == 3:
+        elif alien.y==9 and alienscore==3:
             print('Invaders Win!\n')
             exit()
     grid[alien.y][alien.x] = 'A'
@@ -52,11 +52,11 @@ while True: #main routine
     if inp == 'q':
         exit()
     elif inp == 'a':
-        ship.x = ship.x - 1
+        ship.x-=1
         if ship.x <= 0:
             ship.x = 0
     elif inp == 'd':
-        ship.x = ship.x + 1
+        ship.x+=1
         if ship.x >= 9:
             ship.x = 9
     elif inp == 's':
@@ -68,7 +68,7 @@ while True: #main routine
             grid[missile.y][missile.x] = '^'
             printgrid()
             grid[missile.y][missile.x] = ' '
-            missile.y = missile.y - 1
+            missile.y-=1
             if (missile.y == alien.y) and (missile.x == alien.x): # missile intercepts alien
                 grid[alien.y][alien.x] = '*'
                 printgrid()
@@ -76,8 +76,8 @@ while True: #main routine
                 grid[alien.y][alien.x] = ' '
                 alien=alienClass(random.randint(0,5), random.randint(0,9), alienlife)
                 grid[alien.y][alien.x] = 'A'
-                alienlife = alienlife - .25
-                score=score+1
+                alienlife-=.25
+                score+=1
                 missile.y = 8
                 missile.fire = 0
                 printgrid()

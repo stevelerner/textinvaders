@@ -1,5 +1,5 @@
 import os, time
-import GetInput
+import getinput
 import signal
 
 def clearscreen(sleeptime):
@@ -9,7 +9,7 @@ def clearscreen(sleeptime):
 def alarmhandler(signum, frame):
     raise TypeError
 
-getch = GetInput._getChUnix()
+getch = getinput._getChUnix()
 
 def getinp(timeout=0.05):
     signal.signal(signal.SIGALRM, alarmhandler)
