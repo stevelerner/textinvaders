@@ -18,12 +18,13 @@ def printgrid():
     print('------------')
     print('a/d=move s=fire q=quit\r')
     print('score = ', score, '\r')
+    print('alien.approach = ', alien.approach, '\r')
 
 #initialize game
 inp = 0
 alienlife = 3
 score = 0
-alien=alienClass(random.randint(0,7), random.randint(0,9), alienlife)
+alien=alienClass(random.randint(0,7), random.randint(0,9), alienlife, 7)
 missile=missileClass(0,8,0)
 ship=shipClass(9,4)
 
@@ -36,7 +37,12 @@ while True:
     #check if alien life has expired 
     if time.time() > alien.endtime:
         grid[alien.y][alien.x] = ' '
-        alien=alienClass(random.randint(0,7), random.randint(0,9), alienlife)
+        currentapproach = alien.approach+1
+        alien=alienClass(random.randint(0,currentapproach),
+                         random.randint(0,9), alienlife, currentapproach)
+        if alien.approach==9:
+            print('Aliens Win!\n')
+            exit()
         grid[alien.y][alien.x] = 'A'
         printgrid()
     grid[alien.y][alien.x] = 'A'
@@ -69,7 +75,8 @@ while True:
             if (missile.y == alien.y) and (missile.x == alien.x):
                 grid[alien.y][alien.x] = ' '
                 grid[missile.y][missile.x] = ' '
-                alien=alienClass(random.randint(0,7), random.randint(0,9), alienlife)
+                alien=alienClass(random.randint(0,7), random.randint(0,9),
+                                 alienlife, 7)
                 grid[alien.y][alien.x] = 'A'
                 score=score+1
                 missile.y = 8
