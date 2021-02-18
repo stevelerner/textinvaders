@@ -24,11 +24,10 @@ def getinp(timeout=0.05):
     return ''
 
 class alienClass:
-    def __init__(self, y, x, life, approach):
+    def __init__(self, y, x, life):
         self.y = y
         self.x = x
         self.life = life
-        self.approach = approach
         alienClass.endtime = time.time() + self.life
 
 class missileClass:

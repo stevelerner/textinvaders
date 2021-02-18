@@ -17,14 +17,15 @@ def printgrid():
         print('\r')
     print('------------')
     print('a/d=move s=fire q=quit\r')
-    print('score = ', score, '\r')
-    print('alien.approach = ', alien.approach, '\r')
+    print("alien's score = ", alienscore, '\r')
+    print('your score = ', score, '\r')
 
 #initialize game
 inp = 0
-alienlife = 3
+alienlife = 1
 score = 0
-alien=alienClass(random.randint(0,7), random.randint(0,9), alienlife, 7)
+alienscore = 0
+alien=alienClass(random.randint(0,5), random.randint(0,9), alienlife)
 missile=missileClass(0,8,0)
 ship=shipClass(9,4)
 
@@ -37,14 +38,18 @@ while True:
     #check if alien life has expired 
     if time.time() > alien.endtime:
         grid[alien.y][alien.x] = ' '
-        currentapproach = alien.approach+1
-        alien=alienClass(random.randint(0,currentapproach),
-                         random.randint(0,9), alienlife, currentapproach)
-        if alien.approach==9:
-            print('Aliens Win!\n')
-            exit()
+        alien=alienClass(alien.y+1, random.randint(0,9), alienlife)
         grid[alien.y][alien.x] = 'A'
         printgrid()
+        if alien.y==9 and alienscore == 3:
+            print('Aliens Win!\n')
+            exit()
+        elif alien.y==9 and alienscore < 3:
+            print('Alien Scores!\n')
+            alienscore=alienscore+1
+            grid[alien.y][alien.x] = ' '
+            alien=alienClass(random.randint(0,5), random.randint(0,9), alienlife)
+            printgrid()
     grid[alien.y][alien.x] = 'A'
     #check for keyboard input
     inp = getinp()
@@ -75,9 +80,9 @@ while True:
             if (missile.y == alien.y) and (missile.x == alien.x):
                 grid[alien.y][alien.x] = ' '
                 grid[missile.y][missile.x] = ' '
-                alien=alienClass(random.randint(0,7), random.randint(0,9),
-                                 alienlife, 7)
+                alien=alienClass(random.randint(0,5), random.randint(0,9), alienlife)
                 grid[alien.y][alien.x] = 'A'
+                alienlife = alienlife - .25
                 score=score+1
                 missile.y = 8
                 missile.fire = 0
