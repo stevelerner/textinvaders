@@ -17,42 +17,38 @@ def printgrid():
         print('\r')
     print('------------')
     print('a/d=move s=fire q=quit\r')
-    print("alien's score = ", alienscore, '\r')
-    print('your score = ', score, '\r')
+    print("Invader's score = ", alienscore, '\r')
+    print('Your score = ', score, '\r')
+    grid[9][ship.x]=' '
 
 #initialize game
 inp = 0
-alienlife = 1
 score = 0
 alienscore = 0
+alienlife = 1
 alien=alienClass(random.randint(0,5), random.randint(0,9), alienlife)
+grid[alien.y][alien.x] = 'A'
 missile=missileClass(0,8,0)
 ship=shipClass(9,4)
-
-os.system('tput reset')
-grid[alien.y][alien.x] = 'A'
 printgrid()
 
-#main routine
-while True:
-    #check if alien life has expired 
-    if time.time() > alien.endtime:
+while True: #main routine
+    if time.time() > alien.endtime: #check if alien life has expired and if so, move alien down +1
         grid[alien.y][alien.x] = ' '
         alien=alienClass(alien.y+1, random.randint(0,9), alienlife)
         grid[alien.y][alien.x] = 'A'
         printgrid()
-        if alien.y==9 and alienscore == 3:
-            print('Aliens Win!\n')
-            exit()
-        elif alien.y==9 and alienscore < 3:
-            print('Alien Scores!\n')
+        if alien.y==9 and alienscore < 3:
+            print('Invader Scores!\n')
             alienscore=alienscore+1
             grid[alien.y][alien.x] = ' '
             alien=alienClass(random.randint(0,5), random.randint(0,9), alienlife)
             printgrid()
+        elif alien.y==9 and alienscore == 3:
+            print('Invaders Win!\n')
+            exit()
     grid[alien.y][alien.x] = 'A'
-    #check for keyboard input
-    inp = getinp()
+    inp = getinp() # check for keyboard input
     if inp == 'q':
         exit()
     elif inp == 'a':
@@ -65,21 +61,19 @@ while True:
             ship.x = 9
     elif inp == 's':
         missile = missileClass(8, ship.x, 1)
-    #redraw screen if ship is moved
-    if inp == 'a' or inp == 'd':
+    if inp == 'a' or inp == 'd': # redraw screen if ship is moved
         printgrid()
-    #missile is fired 
-    if missile.fire == 1:
-        #missile has not yet hit top of range
-        if missile.y > -1:
+    if missile.fire == 1: # missile is fired 
+        if missile.y > -1: # missile has not yet hit top of range
             grid[missile.y][missile.x] = '^'
             printgrid()
             grid[missile.y][missile.x] = ' '
             missile.y = missile.y - 1
-            # missile intercepts alien
-            if (missile.y == alien.y) and (missile.x == alien.x):
+            if (missile.y == alien.y) and (missile.x == alien.x): # missile intercepts alien
+                grid[alien.y][alien.x] = '*'
+                printgrid()
+                time.sleep(.5)
                 grid[alien.y][alien.x] = ' '
-                grid[missile.y][missile.x] = ' '
                 alien=alienClass(random.randint(0,5), random.randint(0,9), alienlife)
                 grid[alien.y][alien.x] = 'A'
                 alienlife = alienlife - .25
@@ -87,8 +81,7 @@ while True:
                 missile.y = 8
                 missile.fire = 0
                 printgrid()
-        #missile missed
-        else:
+        else: #missile missed
             missile.y = 8
             missile.fire = 0
             printgrid()
