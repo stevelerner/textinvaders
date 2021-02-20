@@ -23,10 +23,10 @@ inp = 0 #initialize game
 score = 0
 alienscore = 0
 alienwin = 5
-alienspeed = 1.5
-alien=alienClass(random.randint(0,5), random.randint(0,9), alienspeed) #reset alien
+gamespeed = 1.5
+alien=alienClass(5,9,gamespeed)
 grid[alien.y][alien.x] = 'A'
-missile=missileClass(0,8,0)
+missile=missileClass(0,8,0) #reset missile
 ship=shipClass(4)
 grid[9][ship.x] = 'T'
 printgrid()
@@ -35,20 +35,20 @@ while True: #main routine
     grid[9][ship.x]='T'
     if time.time() > alien.endtime: #check if alien speed has expired and if so, move alien down +1
         grid[alien.y][alien.x] = ' '
-        alien=alienClass(alien.y+1, random.randint(0,9), alienspeed) #reset alien
+        alien.approach(gamespeed)
         grid[alien.y][alien.x] = 'A'
         printgrid()
         if alien.y==9 and alienscore < alienwin: #if alien reaches ship, increase its score and get faster before resetting alien
             alienscore+=1
-            alienspeed-=.05 #get a little faster
+            gamespeed-=.05 #get a little faster
             grid[9][ship.x] = '*'
             printgrid()
             if alien.y == 9 and alienscore == alienwin: #alien wins
                 print('Invaders Win!\n')
                 exit()
-            time.sleep(alienspeed)
+            time.sleep(gamespeed)
             grid[alien.y][alien.x] = ' '
-            alien=alienClass(random.randint(0,5), random.randint(0,9), alienspeed) #reset alien
+            alien.randomize(gamespeed) #reset alien
             printgrid()
     grid[alien.y][alien.x] = 'A'
     inp = getinp() #check for keyboard input, if there is input change ship location and reprint grid or fire missile
@@ -81,9 +81,9 @@ while True: #main routine
                 printgrid()
                 time.sleep(.5)
                 grid[alien.y][alien.x] = ' '
-                alien=alienClass(random.randint(0,5), random.randint(0,9), alienspeed) #reset alien
+                alien.randomize(gamespeed) #reset alien
                 grid[alien.y][alien.x] = 'A'
-                alienspeed-=.125 #get a little faster
+                gamespeed-=.125 #get a little faster
                 score+=1
                 missile = missileClass(8, ship.x, 0) #reset missile status
                 printgrid()

@@ -1,4 +1,4 @@
-import os, time
+import os, time, random
 import getinput
 import signal
 
@@ -27,6 +27,16 @@ class alienClass:
     def __init__(self, y, x, speed):
         self.y = y
         self.x = x
+        self.speed = speed
+        alienClass.endtime = time.time() + self.speed
+    def randomize(self, speed):
+        self.y = random.randint(0,5)
+        self.x = random.randint(0,9)
+        self.speed = speed
+        alienClass.endtime = time.time() + self.speed
+    def approach(self, speed):
+        self.y += 1
+        self.x = random.randint(0,9)
         self.speed = speed
         alienClass.endtime = time.time() + self.speed
 
