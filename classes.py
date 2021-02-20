@@ -37,6 +37,5 @@ class missileClass:
         self.fire = fire
 
 class shipClass:
-    def __init__(self, y, x):
-        self.y = y
+    def __init__(self, x):
         self.x = x
