@@ -24,11 +24,9 @@ score = 0
 alienscore = 0
 alienwin = 5
 gamespeed = 1.5
-alien=alienClass(5,9,gamespeed)
-grid[alien.y][alien.x] = 'A'
+alien=alienClass(gamespeed) #create alien
 missile=missileClass(0,8,0) #reset missile
 ship=shipClass(4)
-grid[9][ship.x] = 'T'
 printgrid()
 
 while True: #main routine
@@ -46,9 +44,9 @@ while True: #main routine
             if alien.y == 9 and alienscore == alienwin: #alien wins
                 print('Invaders Win!\n')
                 exit()
-            time.sleep(gamespeed)
+            time.sleep(.5)
             grid[alien.y][alien.x] = ' '
-            alien.randomize(gamespeed) #reset alien
+            alien=alienClass(gamespeed) #reset alien
             printgrid()
     grid[alien.y][alien.x] = 'A'
     inp = getinp() #check for keyboard input, if there is input change ship location and reprint grid or fire missile
@@ -81,7 +79,7 @@ while True: #main routine
                 printgrid()
                 time.sleep(.5)
                 grid[alien.y][alien.x] = ' '
-                alien.randomize(gamespeed) #reset alien
+                alien=alienClass(gamespeed) #reset alien
                 grid[alien.y][alien.x] = 'A'
                 gamespeed-=.125 #get a little faster
                 score+=1

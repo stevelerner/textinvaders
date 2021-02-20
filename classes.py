@@ -24,21 +24,16 @@ def getinp(timeout=0.05):
     return ''
 
 class alienClass:
-    def __init__(self, y, x, speed):
-        self.y = y
-        self.x = x
-        self.speed = speed
-        alienClass.endtime = time.time() + self.speed
-    def randomize(self, speed):
+    def __init__(self, speed):
         self.y = random.randint(0,5)
         self.x = random.randint(0,9)
         self.speed = speed
-        alienClass.endtime = time.time() + self.speed
+        self.endtime = time.time() + self.speed
     def approach(self, speed):
         self.y += 1
         self.x = random.randint(0,9)
         self.speed = speed
-        alienClass.endtime = time.time() + self.speed
+        self.endtime = time.time() + self.speed
 
 class missileClass:
     def __init__(self, y, x, fire):
